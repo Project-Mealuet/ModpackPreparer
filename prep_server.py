@@ -16,7 +16,6 @@ def _modify_properties(
         with open(server_properties_path, 'rb') as file:
             server_properties.load(file, encoding='UTF-8')
     server_properties['max-players'] = '5'
-    server_properties['server-port'] = '80'
     server_properties['motd'] = 'MealuetServer for Minecraft, dedicated to Zack_ZHU'
     server_properties['pvp'] = 'false'
     server_properties['online-mode'] = 'true'
