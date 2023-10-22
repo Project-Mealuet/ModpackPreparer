@@ -13,7 +13,7 @@ def _load_server_list(
         game_path: str
 ):
     servers_dat = NBTFile()
-    servers_dat['servers'] = parse_nbt("[{'ip': 'server.mealuet.online','name': 'Mealuet Server'}]")
+    servers_dat['servers'] = parse_nbt("[{'ip': 'server.mealuet.com','name': 'Mealuet Server'}]")
     servers_dat.save(join(game_path, 'servers.dat'), gzipped=False)
 
 
