@@ -1,3 +1,5 @@
+from os.path import join
+
 from requests import get
 
 
@@ -7,6 +9,7 @@ def _get_from_modrinth(
 ):
     if params is None:
         params = {}
+
     response = get(
         url='https://api.modrinth.com/v2' + path,
         headers={
@@ -17,12 +20,34 @@ def _get_from_modrinth(
     return response.json()
 
 
-def get_latest_file_url(
+def _get_latest_file_url(
         project_id: str,
-        loaders: list[str],
-        game_versions: list[str]
+        loader: str,
+        game_version: str
 ):
     response = _get_from_modrinth(f'/project/{project_id}/version')
     for version in response:
-        if (loaders[0].lower() in version['loaders']) and (game_versions[0] in version['game_versions']):
+        if (loader.lower() in version['loaders']) and (game_version in version['game_versions']):
             return version['files'][0]['url']
+    return None
+
+
+def download_mod(
+        mods_path: str,
+        loader: str,
+        game_version: str,
+        project_id: str
+):
+    file_url = _get_latest_file_url(
+        project_id,
+        loader,
+        game_version
+    )
+    if file_url is None:
+        return False
+
+    file_name = file_url.split('/')[-1]
+    with open(join(mods_path, file_name), 'wb') as file:
+        file.write(get(file_url).content)
+    return True
+

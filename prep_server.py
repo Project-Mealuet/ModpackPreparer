@@ -1,3 +1,4 @@
+from logging import getLogger
 from os.path import exists, join
 
 from jproperties import Properties
@@ -7,7 +8,7 @@ from jre_config import check_lib_exist, download_lib, add_jre_args
 
 def _modify_properties(
         server_path: str,
-        game_versions: list[str]
+        game_version: str
 ):
     server_properties = Properties()
     server_properties_path = join(server_path, 'server.properties')
@@ -20,7 +21,7 @@ def _modify_properties(
     server_properties['pvp'] = 'false'
     server_properties['online-mode'] = 'true'
     server_properties['allow-flight'] = 'true'
-    if game_versions[0] == '1.12.2':
+    if game_version == '1.12.2':
         server_properties['difficulty'] = '3'
     else:
         server_properties['difficulty'] = 'hard'
@@ -37,15 +38,17 @@ def _allow_eula(
 
 def prep_server(
         server_path: str,
-        game_versions: list[str]
+        game_version: str
 ):
-    _modify_properties(server_path, game_versions)
-    print('Server: Properties modified. ')
+    log = getLogger('server')
+
+    _modify_properties(server_path, game_version)
+    log.info('server properties modified. ')
     _allow_eula(server_path)
-    print('Server: EULA allowed. ')
+    log.info('eula allowed. ')
     if not check_lib_exist(server_path):
-        print('Server: No authlib-injector found. ')
+        log.warning('no authlib-injector found. ')
         download_lib(server_path)
-        print('Server: authlib-injector downloaded. ')
+        log.info('authlib-injector downloaded. ')
     add_jre_args(server_path)
-    print('Server: JRE args added. ')
+    log.info('jre args added. ')

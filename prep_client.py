@@ -1,3 +1,4 @@
+from logging import getLogger
 from os.path import exists
 from os.path import join
 
@@ -5,7 +6,7 @@ from nbtlib import File as NBTFile
 from nbtlib import parse_nbt
 
 from mc_options import McOptions
-from skin_src_config import download_mod, add_skin_src
+from modrinth_api import download_mod
 
 
 def _load_server_list(
@@ -28,17 +29,24 @@ def _load_options(
 
 def prep_client(
         game_path: str,
-        loaders: list[str],
-        game_versions: list[str]
+        loader: str,
+        game_version: str
 ):
+    log = getLogger('client')
+
     mods_path = join(game_path, 'mods')
-    download_mod(mods_path, loaders, game_versions, 'idMHQ4n2')
-    print('Client: CML downloaded. ')
-    download_mod(mods_path, loaders, game_versions, 'PWERr14M')
-    print('Client: i18n downloaded. ')
-    add_skin_src(game_path)
-    print('Client: MealuetSkin added. ')
+    if download_mod(mods_path, loader, game_version, 'PWERr14M'):
+        log.info('i18n downloaded. ')
+    else:
+        log.error('no matched i18n. ')
+    if game_version != '1.12.2':
+        if download_mod(mods_path, loader, game_version, 'WMDesFsZ'):
+            log.info('imblocker downloaded. ')
+        else:
+            log.error('no matched imblocker')
+    else:
+        log.critical('imblocker is not eligible for 1.12.2! ')
     _load_server_list(game_path)
-    print('Client: Server added. ')
+    log.info('server list added. ')
     _load_options(game_path)
-    print('Client: Language changed to zh_cn. ')
+    log.info('game language switched to zh_cn. ')
