@@ -1,6 +1,7 @@
 from os.path import join
 
 from requests import get
+from wget import download
 
 
 def _get_from_modrinth(
@@ -47,7 +48,5 @@ def download_mod(
         return False
 
     file_name = file_url.split('/')[-1]
-    with open(join(mods_path, file_name), 'wb') as file:
-        file.write(get(file_url).content)
+    download(file_url, join(mods_path, file_name))
     return True
-

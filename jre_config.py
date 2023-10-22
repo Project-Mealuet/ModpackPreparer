@@ -1,6 +1,6 @@
 from os.path import exists, join
 
-from requests import get
+from wget import download
 
 from github_api import get_latest_lib_url
 
@@ -17,8 +17,7 @@ def download_lib(
         server_path: str
 ):
     lib_url = get_latest_lib_url()
-    with open(join(server_path, 'authlib-injector.jar'), 'wb') as file:
-        file.write(get(lib_url).content)
+    download(lib_url, join(server_path, 'authlib-injector.jar'))
 
 
 def add_jre_args(
