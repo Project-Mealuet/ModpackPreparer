@@ -1,9 +1,6 @@
 from json import dump as json_dump
-from json import load as json_load
-from os import listdir, makedirs
+from os import makedirs
 from os.path import join, exists
-from tomllib import load as toml_load
-from zipfile import ZipFile
 
 from requests import get
 
@@ -26,26 +23,27 @@ def download_mod(
         file.write(get(file_url).content)
 
 
-def check_cml_exist(
-        mods_path: str,
-        game_versions: list[str]
-):
-    mods_files_names = [file_name for file_name in listdir(mods_path) if file_name.endswith('.jar')]
-    if game_versions[0] != '1.12.2':
-        for file_name in mods_files_names:
-            jar_file = ZipFile(join(mods_path, file_name))
-            with jar_file.read('META-INF/mods.toml') as meta_file:
-                mod_id = toml_load(meta_file)['mods'][0]['modId']
-            if mod_id == 'customskinloader':
-                return True
-    else:
-        for file_name in mods_files_names:
-            jar_file = ZipFile(join(mods_path, file_name))
-            with jar_file.open('mcmod.info') as meta_file:
-                mod_id = json_load(meta_file)[0]['modid']
-            if mod_id == 'customskinloader':
-                return True
-    return False
+# 部分模组不遵守文件规范，此功能无法实现。
+# def check_cml_exist(
+#         mods_path: str,
+#         game_versions: list[str]
+# ):
+#     mods_files_names = [file_name for file_name in listdir(mods_path) if file_name.endswith('.jar')]
+#     if game_versions[0] != '1.12.2':
+#         for file_name in mods_files_names:
+#             jar_file = ZipFile(join(mods_path, file_name))
+#             with jar_file.read('META-INF/mods.toml') as meta_file:
+#                 mod_id = toml_load(meta_file)['mods'][0]['modId']
+#             if mod_id == 'customskinloader':
+#                 return True
+#     else:
+#         for file_name in mods_files_names:
+#             jar_file = ZipFile(join(mods_path, file_name))
+#             with jar_file.open('mcmod.info') as meta_file:
+#                 mod_id = json_load(meta_file)[0]['modid']
+#             if mod_id == 'customskinloader':
+#                 return True
+#     return False
 
 
 def add_skin_src(

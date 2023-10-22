@@ -1,9 +1,11 @@
+from os.path import exists
 from os.path import join
 
 from nbtlib import File as NBTFile
 from nbtlib import parse_nbt
 
-from skin_src_config import check_cml_exist, download_mod, add_skin_src
+from mc_options import McOptions
+from skin_src_config import download_mod, add_skin_src
 
 
 def _load_server_list(
@@ -17,8 +19,11 @@ def _load_server_list(
 def _load_options(
         game_path: str
 ):
-    with open(join(game_path, 'options.txt'), 'w') as file:
-        file.write('lang:zh_cn')
+    options = McOptions()
+    if exists(join(game_path, 'options.txt')):
+        options.load(join(game_path, 'options.txt'))
+    options['lang'] = 'zh_cn'
+    options.save(join(game_path, 'options.txt'))
 
 
 def prep_client(
