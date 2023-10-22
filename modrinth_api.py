@@ -1,3 +1,4 @@
+from os.path import join
 from urllib.parse import unquote
 
 from requests import get
@@ -47,5 +48,6 @@ def download_mod(
     if file_url is None:
         return False
 
-    download(file_url, mods_path)
+    file_name = file_url.strip().split('/')[-1]
+    download(file_url, join(mods_path, file_name))
     return True

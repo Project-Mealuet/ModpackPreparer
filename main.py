@@ -30,7 +30,7 @@ if __name__ == '__main__':
             config.write(config_file)
     else:
         log.info('config.ini was read. ')
-        config.read('config.ini')
+        config.read('config.ini', encoding='UTF-8')
         prep_client(
             config['client']['game_path'],
             config['client']['loader'],
