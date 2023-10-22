@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import join, exists
 from urllib.parse import unquote
 
 from requests import get
@@ -49,5 +49,6 @@ def download_mod(
         return False
 
     file_name = file_url.strip().split('/')[-1]
-    download(file_url, join(mods_path, file_name))
+    if not exists(join(mods_path, file_name)):
+        download(file_url, join(mods_path, file_name))
     return True
