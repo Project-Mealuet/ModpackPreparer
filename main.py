@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-from logging import getLogger, basicConfig, DEBUG
+from logging import getLogger, basicConfig, INFO
 from os.path import exists
 
 from prep_client import prep_client
@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     config = ConfigParser()
     log = getLogger()
-    log.setLevel(DEBUG)
+    log.setLevel(INFO)
 
     if not exists('config.ini'):
         log.info('config.ini created. ')

@@ -1,4 +1,4 @@
-from os.path import join
+from urllib.parse import unquote
 
 from requests import get
 from wget import download
@@ -29,7 +29,7 @@ def _get_latest_file_url(
     response = _get_from_modrinth(f'/project/{project_id}/version')
     for version in response:
         if (loader.lower() in version['loaders']) and (game_version in version['game_versions']):
-            return version['files'][0]['url']
+            return unquote(version['files'][0]['url'])
     return None
 
 
@@ -47,6 +47,5 @@ def download_mod(
     if file_url is None:
         return False
 
-    file_name = file_url.split('/')[-1]
-    download(file_url, join(mods_path, file_name))
+    download(file_url, mods_path)
     return True
