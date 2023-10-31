@@ -16,7 +16,7 @@ def _modify_properties(
         with open(server_properties_path, 'rb') as file:
             server_properties.load(file, encoding='UTF-8')
     server_properties['max-players'] = '5'
-    server_properties['motd'] = 'MealuetServer for Minecraft, dedicated to Zack_ZHU'
+    server_properties['motd'] = 'Server maintained by Mealuet, dedicated to YOU. '
     server_properties['pvp'] = 'false'
     server_properties['online-mode'] = 'true'
     server_properties['allow-flight'] = 'true'
@@ -37,7 +37,8 @@ def _allow_eula(
 
 def prep_server(
         server_path: str,
-        game_version: str
+        game_version: str,
+        memory_limit: str
 ):
     log = getLogger('server')
 
@@ -49,5 +50,5 @@ def prep_server(
         log.warning('no authlib-injector found. ')
         download_lib(server_path)
         log.info('authlib-injector downloaded. ')
-    add_jre_args(server_path)
+    add_jre_args(server_path, memory_limit)
     log.info('jre args added. ')

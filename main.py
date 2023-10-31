@@ -20,10 +20,13 @@ if __name__ == '__main__':
                 'game_version': '%(Enter game version name here, etc. 1.20.1)s'
             },
             'client': {
+                'enable': 'True',
                 'game_path': '%(Enter client path here, etc. /root/mc)s'
             },
             'server': {
-                'server_path': '%(Enter server path here, etc. /root/mc)s'
+                'enable': 'True',
+                'server_path': '%(Enter server path here, etc. /root/mc)s',
+                'memory_limit': '20'
             }
         })
         with open('config.ini', 'w') as config_file:
@@ -31,12 +34,15 @@ if __name__ == '__main__':
     else:
         log.info('config.ini was read. ')
         config.read('config.ini', encoding='UTF-8')
-        prep_client(
-            config['client']['game_path'],
-            config['client']['loader'],
-            config['client']['game_version']
-        )
-        prep_server(
-            config['server']['server_path'],
-            config['server']['game_version']
-        )
+        if config['client']['enable'].strip().lower() == 'true':
+            prep_client(
+                config['client']['game_path'],
+                config['client']['loader'],
+                config['client']['game_version']
+            )
+        if config['client']['enable'].strip().lower() == 'true':
+            prep_server(
+                config['server']['server_path'],
+                config['server']['game_version'],
+                config['server']['memory_limit']
+            )
