@@ -20,6 +20,8 @@ def _modify_properties(
     server_properties['pvp'] = 'false'
     server_properties['online-mode'] = 'true'
     server_properties['allow-flight'] = 'true'
+    server_properties['enable-query'] = 'true'
+    server_properties['query.port'] = '25585'
     if game_version == '1.12.2':
         server_properties['difficulty'] = '3'
     else:
