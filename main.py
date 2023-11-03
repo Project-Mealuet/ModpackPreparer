@@ -17,7 +17,8 @@ if __name__ == '__main__':
         config.read_dict({
             'DEFAULT': {
                 'loader': '%(Enter modloader name here, etc. fabric)s',
-                'game_version': '%(Enter game version name here, etc. 1.20.1)s'
+                'game_version': '%(Enter game version name here, etc. 1.20.1)s',
+                'pack_name': '%(Enter pack name here, etc. Create Astral)s'
             },
             'client': {
                 'enable': 'True',
@@ -44,5 +45,6 @@ if __name__ == '__main__':
             prep_server(
                 config['server']['server_path'],
                 config['server']['game_version'],
-                config['server']['memory_limit']
+                config['server']['memory_limit'],
+                config['server']['pack_name']
             )

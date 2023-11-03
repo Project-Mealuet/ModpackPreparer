@@ -10,7 +10,8 @@ from utils.server_icon import server_icon
 
 def _modify_properties(
         server_path: str,
-        game_version: str
+        game_version: str,
+        pack_name: str
 ):
     server_properties = Properties()
     server_properties_path = join(server_path, 'server.properties')
@@ -18,7 +19,7 @@ def _modify_properties(
         with open(server_properties_path, 'rb') as file:
             server_properties.load(file, encoding='UTF-8')
     server_properties['max-players'] = '5'
-    server_properties['motd'] = 'Server maintained by Mealuet, dedicated to YOU. '
+    server_properties['motd'] = pack_name.strip().replace('=', ' ')
     server_properties['pvp'] = 'false'
     server_properties['online-mode'] = 'true'
     server_properties['allow-flight'] = 'true'
@@ -49,11 +50,12 @@ def _config_server_icon(
 def prep_server(
         server_path: str,
         game_version: str,
-        memory_limit: str
+        memory_limit: str,
+        pack_name: str
 ):
     log = getLogger('server')
 
-    _modify_properties(server_path, game_version)
+    _modify_properties(server_path, game_version, pack_name)
     log.info('server properties modified. ')
     _allow_eula(server_path)
     log.info('eula allowed. ')
