@@ -2,8 +2,8 @@ from configparser import ConfigParser
 from logging import getLogger, basicConfig, INFO
 from os.path import exists
 
-from prep_client import prep_client
-from prep_server import prep_server
+from client.prep_client import prep_client
+from server.prep_server import prep_server
 
 if __name__ == '__main__':
     basicConfig()

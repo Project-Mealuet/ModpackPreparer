@@ -5,8 +5,8 @@ from os.path import join
 from nbtlib import File as NBTFile
 from nbtlib import parse_nbt
 
-from mc_options import McOptions
-from modrinth_api import download_mod
+from utils.mc_options import McOptions
+from api.modrinth_api import download_mod
 
 
 def _load_server_list(

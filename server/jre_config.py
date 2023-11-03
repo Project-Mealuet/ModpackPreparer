@@ -2,7 +2,7 @@ from os.path import exists, join
 
 from wget import download
 
-from github_api import get_latest_lib_url
+from api.github_api import get_latest_lib_url
 
 
 def check_lib_exist(
