@@ -1,7 +1,9 @@
 from configparser import ConfigParser
+from json import dump
 from logging import getLogger, basicConfig, INFO
-from os.path import exists
+from os.path import exists, join
 
+from api.curseforge_api import get_modpack_meta
 from client.prep_client import prep_client
 from server.prep_server import prep_server
 
@@ -15,10 +17,9 @@ if __name__ == '__main__':
     if not exists('config.ini'):
         log.info('config.ini created. ')
         config.read_dict({
-            'DEFAULT': {
-                'loader': '%(Enter modloader name here, etc. fabric)s',
-                'game_version': '%(Enter game version name here, etc. 1.20.1)s',
-                'pack_name': '%(Enter pack name here, etc. Create Astral)s'
+            'general': {
+                'curseforge_id': '%(Enter curseforge project id here, etc. 681792)s',
+                'curseforge_api_key': '%(Enter curseforge api key here)s',
             },
             'client': {
                 'enable': 'True',
@@ -35,16 +36,19 @@ if __name__ == '__main__':
     else:
         log.info('config.ini was read. ')
         config.read('config.ini', encoding='UTF-8')
+        server_meta = get_modpack_meta(str(config['general']['curseforge_id']), config['general']['curseforge_api_key'])
+        with open(join(config['server']['server_path'], 'server_meta.json'), 'w', encoding='UTF-8') as server_meta_file:
+            dump(server_meta, server_meta_file, ensure_ascii=False, indent=4)
         if config['client']['enable'].strip().lower() == 'true':
             prep_client(
                 config['client']['game_path'],
-                config['client']['loader'],
-                config['client']['game_version']
+                server_meta['mod_loader'],
+                server_meta['game_version']
             )
         if config['client']['enable'].strip().lower() == 'true':
             prep_server(
                 config['server']['server_path'],
-                config['server']['game_version'],
+                server_meta['game_version'],
                 config['server']['memory_limit'],
-                config['server']['pack_name']
+                server_meta['name']
             )

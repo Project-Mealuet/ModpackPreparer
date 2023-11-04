@@ -6,20 +6,18 @@ from wget import download
 
 
 def _get_from_modrinth(
-        path: str,
-        params: dict = None
+        route: str,
+        params=None
 ):
     if params is None:
         params = {}
-
-    response = get(
-        url='https://api.modrinth.com/v2' + path,
+    return get(
+        url=f'https://api.modrinth.com/v2{route}',
         headers={
             'Content-Type': 'application/json'
         },
         json=params
-    )
-    return response.json()
+    ).json()
 
 
 def _get_latest_file_url(
