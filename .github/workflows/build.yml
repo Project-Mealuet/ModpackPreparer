@@ -31,6 +31,7 @@ jobs:
     - name: Build with Pyinstaller
       run: |
         pyinstaller -F main.py
+        pyinstaller -F packing.py
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with: 
@@ -44,3 +45,4 @@ jobs:
         title: "Automatic Build"
         files: |
           dist/main.exe
+          dist/packing.exe

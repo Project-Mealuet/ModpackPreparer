@@ -4,7 +4,7 @@ from os.path import exists, join
 
 from jproperties import Properties
 
-from jre_config import check_lib_exist, download_lib, add_jre_args
+from server.jre_config import check_lib_exist, download_lib, add_jre_args
 from utils.server_icon import server_icon
 
 
