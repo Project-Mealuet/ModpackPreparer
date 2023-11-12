@@ -22,16 +22,16 @@ if __name__ == '__main__':
                 'curseforge_api_key': 'Enter curseforge api key here',
             },
             'client': {
-                'enable': 'true',
+                'enable': 'yes',
                 'game_path': '/root/mc'
             },
             'server': {
-                'enable': 'true',
+                'enable': 'yes',
                 'server_path': '/root/mc',
                 'memory_limit': '18'
             },
             'ssh': {
-                'enable': 'true',
+                'enable': 'yes',
                 'host': 'localhost',
                 'port': '22',
                 'username': 'user',
@@ -47,13 +47,13 @@ if __name__ == '__main__':
         server_meta = get_modpack_meta(str(config['general']['curseforge_id']), config['general']['curseforge_api_key'])
         with open(join(config['server']['server_path'], 'server_meta.json'), 'w', encoding='UTF-8') as server_meta_file:
             dump(server_meta, server_meta_file, ensure_ascii=False, indent=4)
-        if config['client']['enable'].strip().lower() == 'true':
+        if config['client']['enable'].strip().lower() == 'yes':
             prep_client(
                 config['client']['game_path'],
                 server_meta['mod_loader'],
                 server_meta['game_version']
             )
-        if config['client']['enable'].strip().lower() == 'true':
+        if config['client']['enable'].strip().lower() == 'yes':
             prep_server(
                 config['server']['server_path'],
                 server_meta['game_version'],

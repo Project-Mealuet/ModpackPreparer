@@ -36,7 +36,7 @@ packing_name = (server_meta['name']
 print('正在打包serverpack……')
 zipdir(packing_path, join(dirname(packing_path), packing_name))
 
-if config['ssh']['enable'].strip().lower() == 'true':
+if config['ssh']['enable'].strip().lower() == 'yes':
     src_path = join(dirname(packing_path), packing_name)
     dist_path = config['ssh']['root']
     key_file = RSAKey.from_private_key_file(config['ssh']['key_path'])
