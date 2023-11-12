@@ -8,11 +8,10 @@ from client.prep_client import prep_client
 from server.prep_server import prep_server
 
 if __name__ == '__main__':
-    basicConfig()
+    basicConfig(level=INFO)
 
     config = ConfigParser()
     log = getLogger()
-    log.setLevel(INFO)
 
     if not exists('config.ini'):
         log.info('config.ini created. ')
@@ -53,7 +52,7 @@ if __name__ == '__main__':
                 server_meta['mod_loader'],
                 server_meta['game_version']
             )
-        if config['client']['enable'].strip().lower() == 'yes':
+        if config['server']['enable'].strip().lower() == 'yes':
             prep_server(
                 config['server']['server_path'],
                 server_meta['game_version'],
