@@ -28,14 +28,20 @@ def get_modpack_meta(
         api_key: str
 ):
     raw_data = _get_mod_info(modpack_id, api_key)
-    game_versions = raw_data['data']['latestFiles'][0]['gameVersions']
-    game_version = ''
-    mod_loader = ''
-    for version in game_versions:
-        if fullmatch(r'1\.[1-9][0-9]?(\.[1-9][0-9]?)?', version):
-            game_version = version
-        elif version.lower() in ['fabric', 'forge', 'quilt', 'neoforge']:
-            mod_loader = version.lower()
+    game_version = None
+    mod_loader = None
+    for latest_file in raw_data['data']['latestFiles']:
+        if 'gameVersions' in latest_file:
+            game_versions = latest_file['gameVersions']
+            for version in game_versions:
+                if game_version is None:
+                    if fullmatch(r'1\.[1-9][0-9]?(\.[1-9][0-9]?)?', version):
+                        game_version = version
+                if mod_loader is None:
+                    if version.lower() in ['fabric', 'forge', 'quilt', 'neoforge']:
+                        mod_loader = version.lower()
+        if (game_version is not None) and (mod_loader is not None):
+            break
     return {
         'name': raw_data['data']['name'],
         'logo': raw_data['data']['logo']['url'],

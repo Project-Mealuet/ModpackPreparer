@@ -28,7 +28,7 @@ if __name__ == '__main__':
             'server': {
                 'enable': 'True',
                 'server_path': '%(Enter server path here, etc. /root/mc)s',
-                'memory_limit': '20'
+                'memory_limit': '18'
             }
         })
         with open('config.ini', 'w') as config_file:
@@ -49,6 +49,7 @@ if __name__ == '__main__':
             prep_server(
                 config['server']['server_path'],
                 server_meta['game_version'],
+                server_meta['mod_loader'],
                 config['server']['memory_limit'],
                 server_meta['name']
             )

@@ -4,6 +4,7 @@ from os.path import exists, join
 
 from jproperties import Properties
 
+from server.bluemap_config import download_bluemap, config_bluemap
 from server.jre_config import check_lib_exist, download_lib, add_jre_args
 from utils.server_icon import server_icon
 
@@ -50,6 +51,7 @@ def _config_server_icon(
 def prep_server(
         server_path: str,
         game_version: str,
+        loader: str,
         memory_limit: str,
         pack_name: str
 ):
@@ -67,3 +69,6 @@ def prep_server(
     log.info('jre args added. ')
     _config_server_icon(server_path)
     log.info('server-icon added. ')
+    download_bluemap(server_path, loader, game_version)
+    config_bluemap(server_path)
+    log.info('bluemap configs added. ')
