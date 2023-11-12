@@ -18,17 +18,25 @@ if __name__ == '__main__':
         log.info('config.ini created. ')
         config.read_dict({
             'general': {
-                'curseforge_id': '%(Enter curseforge project id here, etc. 681792)s',
-                'curseforge_api_key': '%(Enter curseforge api key here)s',
+                'curseforge_id': '681792',
+                'curseforge_api_key': 'Enter curseforge api key here',
             },
             'client': {
-                'enable': 'True',
-                'game_path': '%(Enter client path here, etc. /root/mc)s'
+                'enable': 'true',
+                'game_path': '/root/mc'
             },
             'server': {
-                'enable': 'True',
-                'server_path': '%(Enter server path here, etc. /root/mc)s',
+                'enable': 'true',
+                'server_path': '/root/mc',
                 'memory_limit': '18'
+            },
+            'ssh': {
+                'enable': 'true',
+                'host': 'localhost',
+                'port': '22',
+                'username': 'user',
+                'key_path': '/path/to/key',
+                'root': '/root/path'
             }
         })
         with open('config.ini', 'w') as config_file:

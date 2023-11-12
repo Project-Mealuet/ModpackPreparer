@@ -187,3 +187,5 @@ cython_debug/
 #.idea/
 
 _test.py
+config.ini
+key
